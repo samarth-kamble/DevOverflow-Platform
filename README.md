@@ -1,7 +1,7 @@
 <div align="center">
   <br />
     <a href="https://github.com/samarth-kamble/DevOverflow-Platform.git"       target="_blank">
-        <img src="" alt="Project Banner">
+        <img src="https://github.com/samarth-kamble/DevOverflow-Platform/blob/main/public/Devoverflow.png" alt="Project Banner">
     </a>
   <br />
   <img src="https://img.shields.io/badge/-TypeScript-black?style=for-the-badge&logoColor=white&logo=typescript&color=3178C6" alt="typescript" />
