@@ -8,11 +8,28 @@ type iTheme = "light" | "dark";
 
 const Theme = () => {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  // Only render after mounting to avoid hydration mismatch
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleToggle = () => {
     const newTheme: iTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
   };
+
+  // Don't render anything until mounted
+  if (!mounted) {
+    return (
+      <button
+        className="relative h-6 w-12 animate-pulse rounded-full bg-gray-300"
+        disabled
+        aria-label="Loading theme toggle"
+      />
+    );
+  }
 
   const isLight = theme === "light";
 
