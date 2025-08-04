@@ -12,11 +12,12 @@ interface Author {
 interface Question {
   _id: string;
   title: string;
+  content: string;
   tags: Tag[];
   author: Author;
-  cretedAt: Date;
+  createdAt: Date;
   upvotes: number;
+  downvotes: number;
   answers: number;
   views: number;
-  createdAt: Date;
 }
