@@ -5,12 +5,16 @@ import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
+import handleError from "@/lib/handlers/error";
+import { ValidationError } from "@/lib/http-errors";
 
 const questions = [
   {
     _id: "1",
     title: "How to learn React?",
     description: "I want to learn React, can anyone help me?",
+    content:
+      "I want to learn React, can anyone help me? I'm looking for resources and tutorials to get started.",
     tags: [
       { _id: "1", name: "React" },
       { _id: "2", name: "JavaScript" },
@@ -22,6 +26,7 @@ const questions = [
         "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg",
     },
     upvotes: 10,
+    downvotes: 2,
     answers: 5,
     views: 100,
     createdAt: new Date(),
@@ -30,6 +35,8 @@ const questions = [
     _id: "2",
     title: "How to learn JavaScript?",
     description: "I want to learn JavaScript, can anyone help me?",
+    content:
+      "I want to learn JavaScript, can anyone help me? What are the best practices and learning path?",
     tags: [
       { _id: "1", name: "JavaScript" },
       { _id: "2", name: "JavaScript" },
@@ -41,17 +48,31 @@ const questions = [
         "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg",
     },
     upvotes: 10,
+    downvotes: 1,
     answers: 5,
     views: 100,
     createdAt: new Date("2021-09-01"),
   },
 ];
 
+const test = async () => {
+  try {
+    throw new ValidationError({
+      title: ["Required"],
+      tags: ['"JavaScript" is not a valid tag.'],
+    });
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
 interface SearchParams {
   searchParams: Promise<{ [key: string]: string }>;
 }
 
 const Home = async ({ searchParams }: SearchParams) => {
+  await test();
+
   const { query = "", filter = "" } = await searchParams;
 
   const filteredQuestions = questions.filter((question) => {
