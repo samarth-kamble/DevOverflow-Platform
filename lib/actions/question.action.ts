@@ -1,6 +1,6 @@
 "use server";
 
-import mongoose, { Types } from "mongoose";
+import mongoose from "mongoose";
 
 import Question from "@/database/question.model";
 import TagQuestion from "@/database/tag-question.model";

@@ -1,8 +1,9 @@
+import { redirect } from "next/navigation";
+
 import React from "react";
 
-import QuestionForm from "@/components/forms/QuestionForm";
 import { auth } from "@/auth";
-import { redirect } from "next/navigation";
+import QuestionForm from "@/components/forms/QuestionForm";
 
 const AskQuestion = async () => {
   const session = await auth();
