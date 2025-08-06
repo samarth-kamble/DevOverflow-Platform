@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 import slugify from "slugify";
 
-import { Account, User } from "@/database";
+import Account from "@/database/account.model";
+import User from "@/database/user.model";
 import handleError from "@/lib/handlers/error";
 import { ValidationError } from "@/lib/http-errors";
 import dbConnect from "@/lib/mongoose";
@@ -77,10 +78,9 @@ export async function POST(request: Request) {
     }
 
     await session.commitTransaction();
-    return NextResponse.json({
-      success: true,
-    });
-  } catch (error) {
+
+    return NextResponse.json({ success: true });
+  } catch (error: unknown) {
     await session.abortTransaction();
     return handleError(error, "api") as APIErrorResponse;
   } finally {
