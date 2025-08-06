@@ -21,18 +21,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // Add these for debugging production issues
-  experimental: {
-    // Better error reporting
-    serverComponentsExternalPackages: ["mongoose", "mongodb"],
-  },
-
-  // Enable detailed logging in development
-  logging: {
-    fetches: {
-      fullUrl: true,
-    },
-  },
 };
 
 export default nextConfig;
