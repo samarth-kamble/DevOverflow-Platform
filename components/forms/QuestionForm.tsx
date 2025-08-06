@@ -110,8 +110,12 @@ const QuestionForm = () => {
             editorRef.current.setMarkdown("");
           }
 
-          if (result.data) {
-            router.push(ROUTES.QUESTION((result.data as any)._id));
+          if (
+            result.data &&
+            typeof result.data === "object" &&
+            "_id" in result.data
+          ) {
+            router.push(ROUTES.QUESTION((result.data as { _id: string })._id));
           }
         } else {
           toast({
