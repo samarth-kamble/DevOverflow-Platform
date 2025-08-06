@@ -19,6 +19,16 @@
    </div>
 
 </div>
+
+## 📋 Table of Contents
+
+1. 🤖 [Introduction](#introduction)
+2. ⚙️ [Tech Stack](#tech-stack)
+3. 🔋 [Features](#features)
+4. 🤸 [Quick Start](#quick-start)
+
+
+
 ## 🤖 Introduction
 
 DevOverflow is a comprehensive community-driven platform inspired by StackOverflow, enhanced with modern features including AI-powered answers, gamification, personalized recommendations, and advanced search capabilities. Built with the latest Next.js features, this full-stack application demonstrates production-ready development practices with optimal performance and user experience.
