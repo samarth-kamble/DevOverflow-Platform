@@ -4,8 +4,8 @@ import React from "react";
 
 import ROUTES from "@/constants/routes";
 
-import { Avatar, AvatarFallback } from "./ui/avatar";
 import { cn } from "@/lib/utils";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 
 interface Props {
   id: string;

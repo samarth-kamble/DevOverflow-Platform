@@ -1,9 +1,10 @@
 import { FilterQuery } from "mongoose";
+
+import { Tag } from "@/database";
 import action from "../handlers/action";
 import handleError from "../handlers/error";
-import { PaginatedSearchParamsSchema } from "../validations";
-import { Tag } from "@/database";
 import dbConnect from "../mongoose";
+import { PaginatedSearchParamsSchema } from "../validations";
 
 export const getTags = async (
   params: PaginatedSearchParams

@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Code } from "bright";
 import { MDXRemote } from "next-mdx-remote/rsc";
 

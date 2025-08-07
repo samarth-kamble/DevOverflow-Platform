@@ -3,8 +3,8 @@ import React from "react";
 
 import { auth } from "@/auth";
 import QuestionForm from "@/components/forms/QuestionForm";
-import { getQuestion } from "@/lib/actions/question.action";
 import ROUTES from "@/constants/routes";
+import { getQuestion } from "@/lib/actions/question.action";
 
 const EditQuestion = async ({ params }: RouteParams) => {
   const { id } = await params;

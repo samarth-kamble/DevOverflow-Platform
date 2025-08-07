@@ -1,14 +1,13 @@
 import Link from "next/link";
 
 import QuestionCard from "@/components/cards/QuestionCard";
+import DataRenderer from "@/components/DataRenderer";
 import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import { getQuestions } from "@/lib/actions/question.action";
-import DataRenderer from "@/components/DataRenderer";
 import { EMPTY_QUESTION } from "@/constants/states";
-
+import { getQuestions } from "@/lib/actions/question.action";
 interface SearchParams {
   searchParams: Promise<{ [key: string]: string }>;
 }
