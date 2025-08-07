@@ -3,8 +3,8 @@ import Link from "next/link";
 import React from "react";
 
 import ROUTES from "@/constants/routes";
-
 import { cn } from "@/lib/utils";
+
 import { Avatar, AvatarFallback } from "./ui/avatar";
 
 interface Props {

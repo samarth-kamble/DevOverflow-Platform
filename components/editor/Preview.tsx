@@ -1,7 +1,6 @@
-import React from "react";
-
 import { Code } from "bright";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import React from "react";
 
 Code.theme = {
   light: "github-light",
