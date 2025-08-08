@@ -41,7 +41,7 @@ const Votes = ({ upvotes, hasupVoted, downvotes, hasdownVoted }: Params) => {
         title: successMessage,
         description: "Your vote has been recorded.",
       });
-    } catch (error) {
+    } catch {
       toast({
         title: "Failed to vote",
         description: "An error occurred while voting. Please try again later.",
