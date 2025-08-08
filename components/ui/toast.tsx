@@ -33,6 +33,7 @@ const toastVariants = cva(
           "border border-orange-200 bg-[#ff7000] text-white shadow-orange-100 dark:border-orange-800 dark:bg-[#ff7000] dark:text-white dark:shadow-orange-900/20",
         destructive:
           "border border-red-200 bg-red-500 text-white shadow-red-100 dark:border-red-800 dark:bg-red-600 dark:text-white dark:shadow-red-900/20",
+        warn: "border border-yellow-200 bg-yellow-500 text-white shadow-yellow-100 dark:border-yellow-800 dark:bg-yellow-600 dark:text-white dark:shadow-yellow-900/20",
       },
     },
     defaultVariants: {
@@ -68,9 +69,12 @@ const ToastAction = React.forwardRef<
       "border-orange-300/60 text-white hover:bg-orange-600 hover:border-orange-400 focus:ring-orange-300",
       // Destructive variant styles
       "group-[.destructive]:border-red-300/60 group-[.destructive]:text-white group-[.destructive]:hover:bg-red-600 group-[.destructive]:hover:border-red-400 group-[.destructive]:focus:ring-red-300",
+      // Warn variant styles
+      "group-[.warn]:border-yellow-300/60 group-[.warn]:text-white group-[.warn]:hover:bg-yellow-600 group-[.warn]:hover:border-yellow-400 group-[.warn]:focus:ring-yellow-300",
       // Dark mode
       "dark:border-orange-600/60 dark:hover:bg-orange-700 dark:focus:ring-orange-400",
       "dark:group-[.destructive]:border-red-600/60 dark:group-[.destructive]:hover:bg-red-700 dark:group-[.destructive]:focus:ring-red-400",
+      "dark:group-[.warn]:border-yellow-600/60 dark:group-[.warn]:hover:bg-yellow-700 dark:group-[.warn]:focus:ring-yellow-400",
       className
     )}
     {...props}
@@ -90,9 +94,12 @@ const ToastClose = React.forwardRef<
       "text-white/70 hover:text-white focus:ring-orange-300",
       // Destructive variant styles
       "group-[.destructive]:text-white/70 group-[.destructive]:hover:text-white group-[.destructive]:focus:ring-red-300",
+      // Warn variant styles
+      "group-[.warn]:text-white/70 group-[.warn]:hover:text-white group-[.warn]:focus:ring-yellow-300",
       // Dark mode
       "dark:text-white/70 dark:hover:text-white dark:focus:ring-orange-400",
       "dark:group-[.destructive]:text-white/70 dark:group-[.destructive]:hover:text-white dark:group-[.destructive]:focus:ring-red-400",
+      "dark:group-[.warn]:text-white/70 dark:group-[.warn]:hover:text-white dark:group-[.warn]:focus:ring-yellow-400",
       className
     )}
     toast-close=""
