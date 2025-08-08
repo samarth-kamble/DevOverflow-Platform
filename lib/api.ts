@@ -62,7 +62,7 @@ export const api = {
       fetchHandler(`${API_BASE_URL}/accounts/${id}`, { method: "DELETE" }),
   },
   ai: {
-    getAnswer: (
+    getAnswers: (
       question: string,
       content: string,
       userAnswer?: string

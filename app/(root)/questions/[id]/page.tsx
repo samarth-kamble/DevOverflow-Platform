@@ -3,37 +3,35 @@ import { redirect } from "next/navigation";
 import { after } from "next/server";
 import React, { Suspense } from "react";
 
-import AllAnswers from "@/components/answers/AllAnswer";
+import AllAnswers from "@/components/answers/AllAnswers";
 import TagCard from "@/components/cards/TagCard";
 import Preview from "@/components/editor/Preview";
 import AnswerForm from "@/components/forms/AnswerForm";
 import Metric from "@/components/Metric";
+import SaveQuestion from "@/components/questions/SaveQuestion";
 import UserAvatar from "@/components/UserAvatar";
 import Votes from "@/components/votes/Votes";
 import ROUTES from "@/constants/routes";
-import { getAnswer } from "@/lib/actions/answer.action";
+import { getAnswers } from "@/lib/actions/answer.action";
 import { getQuestion, incrementViews } from "@/lib/actions/question.action";
 import { hasVoted } from "@/lib/actions/vote.action";
 import { formatNumber, getTimeStamp } from "@/lib/utils";
 
 const QuestionDetails = async ({ params }: RouteParams) => {
   const { id } = await params;
-
   const { success, data: question } = await getQuestion({ questionId: id });
 
   after(async () => {
     await incrementViews({ questionId: id });
   });
 
-  if (!success || !question) {
-    return redirect("/404");
-  }
+  if (!success || !question) return redirect("/404");
 
   const {
     success: areAnswersLoaded,
     data: answersResult,
     error: answersError,
-  } = await getAnswer({
+  } = await getAnswers({
     questionId: id,
     page: 1,
     pageSize: 10,
@@ -64,6 +62,7 @@ const QuestionDetails = async ({ params }: RouteParams) => {
               </p>
             </Link>
           </div>
+
           <div className="flex justify-end">
             <Suspense fallback={<div>Loading...</div>}>
               <Votes
@@ -73,6 +72,10 @@ const QuestionDetails = async ({ params }: RouteParams) => {
                 targetId={question._id}
                 hasVotedPromise={hasVotedPromise}
               />
+            </Suspense>
+
+            <Suspense fallback={<div>Loading...</div>}>
+              <SaveQuestion questionId={question._id} />
             </Suspense>
           </div>
         </div>
@@ -86,7 +89,7 @@ const QuestionDetails = async ({ params }: RouteParams) => {
         <Metric
           imgUrl="/icons/clock.svg"
           alt="clock icon"
-          value={`asked ${getTimeStamp(new Date(createdAt))}`}
+          value={` asked ${getTimeStamp(new Date(createdAt))}`}
           title=""
           textStyles="small-regular text-dark400_light700"
         />
@@ -105,7 +108,9 @@ const QuestionDetails = async ({ params }: RouteParams) => {
           textStyles="small-regular text-dark400_light700"
         />
       </div>
+
       <Preview content={content} />
+
       <div className="mt-8 flex flex-wrap gap-2">
         {tags.map((tag: Tag) => (
           <TagCard

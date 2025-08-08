@@ -88,7 +88,7 @@ const AnswerForm = ({ questionId, questionTitle, questionContent }: Props) => {
     const userAnswer = editorRef.current?.getMarkdown();
 
     try {
-      const { success, data, error } = await api.ai.getAnswer(
+      const { success, data, error } = await api.ai.getAnswers(
         questionTitle,
         questionContent,
         userAnswer || ""
