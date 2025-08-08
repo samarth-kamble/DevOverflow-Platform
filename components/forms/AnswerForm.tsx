@@ -78,24 +78,26 @@ const AnswerForm = ({ questionId, questionTitle, questionContent }: Props) => {
   const generateAIAnswer = async () => {
     if (session.status !== "authenticated") {
       return toast({
-        title: "Please login to use this feature",
-        description: "You need to be logged in to generate AI answers.",
-        variant: "destructive",
+        title: "Please log in",
+        description: "You need to be logged in to use this feature",
       });
     }
 
     setIsAISubmitting(true);
 
+    const userAnswer = editorRef.current?.getMarkdown();
+
     try {
-      const { success, data, error } = await api.ai.getAnswers(
+      const { success, data, error } = await api.ai.getAnswer(
         questionTitle,
-        questionContent
+        questionContent,
+        userAnswer || ""
       );
 
       if (!success) {
         return toast({
           title: "Error",
-          description: error?.message || "Failed to generate AI answer.",
+          description: error?.message,
           variant: "destructive",
         });
       }
@@ -110,8 +112,8 @@ const AnswerForm = ({ questionId, questionTitle, questionContent }: Props) => {
       }
 
       toast({
-        title: "AI Answer Generated",
-        description: "Your AI-generated answer has been inserted.",
+        title: "Success",
+        description: "AI generated answer has been generated",
       });
     } catch (error) {
       toast({

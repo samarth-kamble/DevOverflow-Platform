@@ -67,7 +67,7 @@ export async function createAnswer(
   }
 }
 
-export async function getAnswers(params: GetAnswersParams): Promise<
+export async function getAnswer(params: GetAnswersParams): Promise<
   ActionResponse<{
     answers: Answer[];
     isNext: boolean;

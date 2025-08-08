@@ -10,7 +10,7 @@ import AnswerForm from "@/components/forms/AnswerForm";
 import Metric from "@/components/Metric";
 import UserAvatar from "@/components/UserAvatar";
 import ROUTES from "@/constants/routes";
-import { getAnswers } from "@/lib/actions/answer.action";
+import { getAnswer } from "@/lib/actions/answer.action";
 import { getQuestion, incrementViews } from "@/lib/actions/question.action";
 import { formatNumber, getTimeStamp } from "@/lib/utils";
 
@@ -31,7 +31,7 @@ const QuestionDetails = async ({ params }: RouteParams) => {
     success: areAnswersLoaded,
     data: answersResult,
     error: answersError,
-  } = await getAnswers({
+  } = await getAnswer({
     questionId: id,
     page: 1,
     pageSize: 10,
