@@ -1,3 +1,4 @@
+import Pagination from "@/components/Pagination";
 import { AnswerFilters } from "@/constants/Filters";
 import { EMPTY_ANSWERS } from "@/constants/states";
 
@@ -6,10 +7,19 @@ import DataRenderer from "../DataRenderer";
 import CommonFilter from "../filters/CommonFilter";
 
 interface Props extends ActionResponse<Answer[]> {
+  page: number;
+  isNext: boolean;
   totalAnswers: number;
 }
 
-const AllAnswers = ({ data, success, error, totalAnswers }: Props) => {
+const AllAnswers = ({
+  page,
+  isNext,
+  data,
+  success,
+  error,
+  totalAnswers,
+}: Props) => {
   return (
     <div className="mt-11">
       <div className="flex items-center justify-between">
@@ -32,6 +42,8 @@ const AllAnswers = ({ data, success, error, totalAnswers }: Props) => {
           answers.map((answer) => <AnswerCard key={answer._id} {...answer} />)
         }
       />
+
+      <Pagination page={page} isNext={isNext || false} />
     </div>
   );
 };
