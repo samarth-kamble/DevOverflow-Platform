@@ -1,6 +1,6 @@
 "use server";
 
-import { FilterQuery } from "mongoose";
+import mongoose, { PipelineStage } from "mongoose";
 import { revalidatePath } from "next/cache";
 
 import ROUTES from "@/constants/routes";
@@ -14,7 +14,7 @@ import {
 } from "../validations";
 
 export async function toggleSaveQuestion(
-  params: CollectionBaseParams
+  params: CollectionBaseParams,
 ): Promise<ActionResponse<{ saved: boolean }>> {
   const validationResult = await action({
     params,
@@ -39,7 +39,7 @@ export async function toggleSaveQuestion(
     });
 
     if (collection) {
-      await Collection.findByIdAndDelete(collection.id);
+      await Collection.findByIdAndDelete(collection._id);
 
       revalidatePath(ROUTES.QUESTION(questionId));
 
@@ -70,7 +70,7 @@ export async function toggleSaveQuestion(
 }
 
 export async function hasSavedQuestion(
-  params: CollectionBaseParams
+  params: CollectionBaseParams,
 ): Promise<ActionResponse<{ saved: boolean }>> {
   const validationResult = await action({
     params,
@@ -103,7 +103,7 @@ export async function hasSavedQuestion(
 }
 
 export async function getSavedQuestions(
-  params: PaginatedSearchParams
+  params: PaginatedSearchParams,
 ): Promise<ActionResponse<{ collection: Collection[]; isNext: boolean }>> {
   const validationResult = await action({
     params,
@@ -117,58 +117,82 @@ export async function getSavedQuestions(
 
   const userId = validationResult.session?.user?.id;
   const { page = 1, pageSize = 10, query, filter } = params;
+
   const skip = (Number(page) - 1) * pageSize;
-  const limit = Number(pageSize);
+  const limit = pageSize;
 
-  const filterQuery: FilterQuery<typeof Collection> = { author: userId };
+  const sortOptions: Record<string, Record<string, 1 | -1>> = {
+    mostrecent: { "question.createdAt": -1 },
+    oldest: { "question.createdAt": 1 },
+    mostvoted: { "question.upvotes": -1 },
+    mostviewed: { "question.views": -1 },
+    mostanswered: { "question.answers": -1 },
+  };
 
-  if (query) {
-    filterQuery.$or = [
-      { title: { $regex: new RegExp(query, "i") } },
-      { content: { $regex: new RegExp(query, "i") } },
-    ];
-  }
-
-  let sortCriteria = {};
-
-  switch (filter) {
-    case "mostrecent":
-      sortCriteria = { createdAt: -1 };
-      break;
-    case "oldest":
-      sortCriteria = { createdAt: -1 };
-      break;
-    case "mostvoted":
-      sortCriteria = { upvotes: -1 };
-      break;
-    case "mostanswered":
-      sortCriteria = { answers: -1 };
-      break;
-    default:
-      sortCriteria = { createdAt: -1 };
-      break;
-  }
+  const sortCriteria = sortOptions[filter as keyof typeof sortOptions] || {
+    "question.createdAt": -1,
+  };
 
   try {
-    const totalQuestions = await Question.countDocuments(filterQuery);
+    const pipeline: PipelineStage[] = [
+      { $match: { author: new mongoose.Types.ObjectId(userId) } },
+      {
+        $lookup: {
+          from: "questions",
+          localField: "question",
+          foreignField: "_id",
+          as: "question",
+        },
+      },
+      { $unwind: "$question" },
+      {
+        $lookup: {
+          from: "users",
+          localField: "question.author",
+          foreignField: "_id",
+          as: "question.author",
+        },
+      },
+      { $unwind: "$question.author" },
+      {
+        $lookup: {
+          from: "tags",
+          localField: "question.tags",
+          foreignField: "_id",
+          as: "question.tags",
+        },
+      },
+    ];
 
-    const questions = await Collection.find(filterQuery)
-      .populate({
-        path: "question",
-        populate: [
-          { path: "tags", select: "_id name" },
-          { path: "author", select: "_id name image" },
-        ],
-      })
-      .sort(sortCriteria)
-      .skip(skip)
-      .limit(limit);
+    if (query) {
+      pipeline.push({
+        $match: {
+          $or: [
+            { "question.title": { $regex: query, $options: "i" } },
+            { "question.content": { $regex: query, $options: "i" } },
+          ],
+        },
+      });
+    }
 
-    const isNext = totalQuestions > skip + questions.length;
+    const [totalCount] = await Collection.aggregate([
+      ...pipeline,
+      { $count: "count" },
+    ]);
+
+    pipeline.push({ $sort: sortCriteria }, { $skip: skip }, { $limit: limit });
+    pipeline.push({ $project: { question: 1, author: 1 } });
+
+    const questions = await Collection.aggregate(pipeline);
+
+    const isNext = totalCount.count > skip + questions.length;
 
     return {
       success: true,
-      data: { collection: JSON.parse(JSON.stringify(questions)), isNext },
+      data: {
+        collection: JSON.parse(JSON.stringify(questions)),
+        isNext,
+      },
     };
   } catch (error) {
     return handleError(error) as ErrorResponse;

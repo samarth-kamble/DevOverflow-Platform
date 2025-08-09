@@ -32,6 +32,7 @@ const Community = async ({ searchParams }: RouteParams) => {
       <DataRenderer
         success={success}
         data={users}
+        error={error}
         empty={EMPTY_USERS}
         render={(users) => (
           <div className="mt-12 flex flex-wrap gap-5">
