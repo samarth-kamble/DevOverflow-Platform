@@ -1,11 +1,13 @@
-import ROUTES from "@/constants/routes";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import TagCard from "../cards/TagCard";
+
+import ROUTES from "@/constants/routes";
 import { getHotQuestions } from "@/lib/actions/question.action";
-import DataRenderer from "../DataRenderer";
 import { getTopTags } from "@/lib/actions/tag.actions";
+
+import DataRenderer from "../DataRenderer";
+import TagCard from "../cards/TagCard";
 
 const RightSidebar = async () => {
   const [

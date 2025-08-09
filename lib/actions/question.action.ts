@@ -8,6 +8,7 @@ import Tag, { ITagDoc } from "@/database/tag.model";
 
 import action from "../handlers/action";
 import handleError from "../handlers/error";
+import dbConnect from "../mongoose";
 import {
   AskQuestionSchema,
   EditQuestionSchema,
@@ -15,7 +16,6 @@ import {
   IncrementViewsSchema,
   PaginatedSearchParamsSchema,
 } from "../validations";
-import dbConnect from "../mongoose";
 
 export async function createQuestion(
   params: CreateQuestionParams
