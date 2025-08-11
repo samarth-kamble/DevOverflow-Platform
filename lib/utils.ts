@@ -113,3 +113,33 @@ export function assignBadges(params: {
 
   return badgeCounts;
 }
+
+export function processJobTitle(title: string | undefined | null): string {
+  // check the title is undeined or null
+  if (title === undefined || title === null) {
+    return "No Job Title";
+  }
+
+  // spilt the title into words
+  const words = title.split(" ");
+
+  // filter out undefined or null and other unwanted words
+  const validWords = words.filter((word) => {
+    return (
+      word !== undefined &&
+      word !== null &&
+      word.toLowerCase() !== "undefined" &&
+      word.toLowerCase() !== "null"
+    );
+  });
+
+  // If no valid words are left, return the general title
+  if (validWords.length === 0) {
+    return "No Job Title";
+  }
+
+  // Join the valid words to create the processed title
+  const processedTitle = validWords.join(" ");
+
+  return processedTitle;
+}
