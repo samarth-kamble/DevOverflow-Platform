@@ -1,3 +1,5 @@
+import { Metadata } from "next";
+
 import UserCard from "@/components/cards/UserCard";
 import DataRenderer from "@/components/DataRenderer";
 import CommonFilter from "@/components/filters/CommonFilter";
@@ -7,6 +9,12 @@ import { UserFilters } from "@/constants/Filters";
 import ROUTES from "@/constants/routes";
 import { EMPTY_USERS } from "@/constants/states";
 import { getUsers } from "@/lib/actions/user.action";
+
+export const metadata: Metadata = {
+  title: "Community | DevOverflow",
+  description: "Connect with other developers and share your knowledge.",
+  keywords: ["community", "developers", "knowledge sharing"],
+};
 
 const Community = async ({ searchParams }: RouteParams) => {
   const { page, pageSize, query, filter } = await searchParams;

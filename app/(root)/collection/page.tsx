@@ -1,3 +1,5 @@
+import { Metadata } from "next";
+
 import QuestionCard from "@/components/cards/QuestionCard";
 import DataRenderer from "@/components/DataRenderer";
 import CommonFilter from "@/components/filters/CommonFilter";
@@ -7,6 +9,11 @@ import { CollectionFilters } from "@/constants/Filters";
 import ROUTES from "@/constants/routes";
 import { EMPTY_QUESTION } from "@/constants/states";
 import { getSavedQuestions } from "@/lib/actions/collection.action";
+
+export const metadata: Metadata = {
+  title: "Collection | DevOverflow",
+  description: "Connect with other developers and share your knowledge.",
+};
 
 interface SearchParams {
   searchParams: Promise<{ [key: string]: string }>;

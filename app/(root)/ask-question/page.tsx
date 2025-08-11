@@ -4,6 +4,11 @@ import React from "react";
 import { auth } from "@/auth";
 import QuestionForm from "@/components/forms/QuestionForm";
 
+export const metadata = {
+  title: "Ask a question | DevOverflow",
+  description: "Ask a question and connect with other developers.",
+};
+
 const AskQuestion = async () => {
   const session = await auth();
 

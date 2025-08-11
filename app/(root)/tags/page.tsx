@@ -1,3 +1,5 @@
+import { Metadata } from "next";
+
 import TagCard from "@/components/cards/TagCard";
 import DataRenderer from "@/components/DataRenderer";
 import CommonFilter from "@/components/filters/CommonFilter";
@@ -7,6 +9,11 @@ import { TagFilters } from "@/constants/Filters";
 import ROUTES from "@/constants/routes";
 import { EMPTY_TAGS } from "@/constants/states";
 import { getTags } from "@/lib/actions/tag.action";
+
+export const metadata: Metadata = {
+  title: "Collection | DevOverflow",
+  description: "Connect with other developers and share your knowledge.",
+};
 
 const Tags = async ({ searchParams }: RouteParams) => {
   const { page, pageSize, query, filter } = await searchParams;
