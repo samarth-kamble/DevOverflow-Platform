@@ -1,6 +1,15 @@
 import { z } from "zod";
 
-import { InteractionActionEnums } from "@/database/interaction.model";
+const InteractionActionEnums = [
+  "view",
+  "upvote",
+  "downvote",
+  "bookmark",
+  "post",
+  "edit",
+  "delete",
+  "search",
+] as const;
 
 export const SignInSchema = z.object({
   email: z

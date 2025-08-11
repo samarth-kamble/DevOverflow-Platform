@@ -19,6 +19,7 @@ export const InteractionActionEnums = [
 ] as const;
 
 export interface IInteractionDoc extends IInteraction, Document {}
+
 const InteractionSchema = new Schema<IInteraction>(
   {
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
@@ -27,7 +28,7 @@ const InteractionSchema = new Schema<IInteraction>(
       enum: InteractionActionEnums,
       required: true,
     },
-    actionId: { type: Schema.Types.ObjectId, required: true }, // 'questionId', 'answerId',
+    actionId: { type: Schema.Types.ObjectId, required: true },
     actionType: { type: String, enum: ["question", "answer"], required: true },
   },
   { timestamps: true }
